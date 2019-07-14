@@ -131,49 +131,6 @@ public class ProceduralVoxelMap : MonoBehaviour
                     }
                 }
             }
-
-        //if (GameObject.Find("Chunk " + (targetChunk.chunkX - 1) + " " + (targetChunk.chunkY - 1)) && !targetChunk.adjChunks[0])
-        //{
-        //    targetChunk.adjChunks[0] = GameObject.Find("Chunk " + (targetChunk.chunkX - 1) + " " + (targetChunk.chunkY - 1)).GetComponent<VoxelChunk>();
-        //    targetChunk.adjChunks[0].pendingUpdate = true;
-        //}
-        //if (GameObject.Find("Chunk " + (targetChunk.chunkX - 1) + " " + (targetChunk.chunkY)) && !targetChunk.adjChunks[1])
-        //{
-        //    targetChunk.adjChunks[1] = GameObject.Find("Chunk " + (targetChunk.chunkX - 1) + " " + (targetChunk.chunkY)).GetComponent<VoxelChunk>();
-        //    targetChunk.adjChunks[1].pendingUpdate = true;
-        //}
-        //if (GameObject.Find("Chunk " + (targetChunk.chunkX - 1) + " " + (targetChunk.chunkY + 1)) && !targetChunk.adjChunks[2])
-        //{
-        //    targetChunk.adjChunks[2] = GameObject.Find("Chunk " + (targetChunk.chunkX - 1) + " " + (targetChunk.chunkY + 1)).GetComponent<VoxelChunk>();
-        //    targetChunk.adjChunks[2].pendingUpdate = true;
-        //}
-        //if (GameObject.Find("Chunk " + (targetChunk.chunkX) + " " + (targetChunk.chunkY - 1)) && !targetChunk.adjChunks[3])
-        //{
-        //    targetChunk.adjChunks[3] = GameObject.Find("Chunk " + (targetChunk.chunkX) + " " + (targetChunk.chunkY - 1)).GetComponent<VoxelChunk>();
-        //    targetChunk.adjChunks[3].pendingUpdate = true;
-        //}
-        //if (GameObject.Find("Chunk " + (targetChunk.chunkX) + " " + (targetChunk.chunkY + 1)) && !targetChunk.adjChunks[4])
-        //{
-        //    targetChunk.adjChunks[4] = GameObject.Find("Chunk " + (targetChunk.chunkX) + " " + (targetChunk.chunkY + 1)).GetComponent<VoxelChunk>();
-        //    targetChunk.adjChunks[4].pendingUpdate = true;
-        //}
-        //if (GameObject.Find("Chunk " + (targetChunk.chunkX + 1) + " " + (targetChunk.chunkY - 1)) && !targetChunk.adjChunks[5])
-        //{
-        //    targetChunk.adjChunks[5] = GameObject.Find("Chunk " + (targetChunk.chunkX + 1) + " " + (targetChunk.chunkY - 1)).GetComponent<VoxelChunk>();
-        //    targetChunk.adjChunks[5].pendingUpdate = true;
-        //}
-        //if (GameObject.Find("Chunk " + (targetChunk.chunkX + 1) + " " + (targetChunk.chunkY)) && !targetChunk.adjChunks[6])
-        //{
-        //    targetChunk.adjChunks[6] = GameObject.Find("Chunk " + (targetChunk.chunkX + 1) + " " + (targetChunk.chunkY)).GetComponent<VoxelChunk>();
-        //    targetChunk.adjChunks[6].pendingUpdate = true;
-        //}
-        //if (GameObject.Find("Chunk " + (targetChunk.chunkX + 1) + " " + (targetChunk.chunkY + 1)) && !targetChunk.adjChunks[7])
-        //{
-        //    targetChunk.adjChunks[7] = GameObject.Find("Chunk " + (targetChunk.chunkX + 1) + " " + (targetChunk.chunkY + 1)).GetComponent<VoxelChunk>();
-        //    targetChunk.adjChunks[7].pendingUpdate = true;
-        //}
-
-        //targetChunk.pendingUpdate = true;
     }
 
     private bool adjCheck(VoxelChunk a, VoxelChunk b)
