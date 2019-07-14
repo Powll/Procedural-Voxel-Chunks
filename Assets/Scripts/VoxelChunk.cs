@@ -451,11 +451,11 @@ public class VoxelChunk : MonoBehaviour
     }
 
     // Returns the position of the voxel urrently being interated with, based on collisionn point and forward facing direction of player and the hit angle
-    public Vector3Int GetInteractedVoxelPosition(Vector3 to, Vector3 dir, RaycastHit hit)
+    public Vector3Int GetRemoveAtPosition(Vector3 hitPoint, Vector3 dir, RaycastHit hit)
     {
         Vector3Int target = new Vector3Int(0, 0, 0);
 
-        Vector3 normalised = to - new Vector3(chunkX * width, 0, chunkY * depth);
+        Vector3 normalised = hitPoint - new Vector3(chunkX * width, 0, chunkY * depth);
 
         Vector3Int voxelPosition = new Vector3Int(Mathf.FloorToInt(normalised.x), Mathf.FloorToInt(normalised.y), Mathf.FloorToInt(normalised.z));
 
@@ -489,6 +489,46 @@ public class VoxelChunk : MonoBehaviour
         return voxelPosition + offset;
     }
 
+    public Vector3Int GetAddAtPosition(Vector3 hitPoint, Vector3 dir, RaycastHit hit)
+    {
+        Vector3Int target = new Vector3Int();
+
+        Vector3 normalised = hitPoint - new Vector3(chunkX * width, 0, chunkY * depth);
+
+        Vector3Int voxelPosition = new Vector3Int(Mathf.FloorToInt(normalised.x), Mathf.FloorToInt(normalised.y), Mathf.FloorToInt(normalised.z));
+
+        Vector3Int offset = new Vector3Int();
+
+        if (hit.normal == Vector3.up)
+        {
+            offset = new Vector3Int(0, 0, 0);
+        }
+        else if (hit.normal == Vector3.down)
+        {
+            offset = new Vector3Int(0, -1, 0);
+        }
+        else if (hit.normal == Vector3.forward)
+        {
+            offset = new Vector3Int(0, 0, 0);
+        }
+        else if (hit.normal == Vector3.back)
+        {
+            offset = new Vector3Int(0, 0, -1);
+        }
+        else if (hit.normal == Vector3.right)
+        {
+            offset = new Vector3Int(0, 0, 0);
+        }
+        else if (hit.normal == Vector3.left)
+        {
+            offset = new Vector3Int(-1, 0, 0);
+        }
+
+        return voxelPosition + offset;
+
+        return target;
+    }
+    // TODO: Make both of these STATIC
     public void RemoveVoxel(Vector3Int at)
     {
         if (chunkData[at.x, at.y, at.z] == 1)
@@ -530,6 +570,86 @@ public class VoxelChunk : MonoBehaviour
         else
         {
             Debug.Log("No voxel at " + at);
+        }
+    }
+
+    public void AddVoxel(Vector3Int at)
+    {
+        Debug.Log(at);
+
+        // Place in separate chunk if neccessary
+        VoxelChunk auxChunk = null;
+
+        if(at.x == -1)
+        {
+            if (at.z == -1)
+            { auxChunk = adjChunks[0]; at = new Vector3Int(width - 1, at.y, depth - 1); }
+            else if (at.z == depth)
+            { auxChunk = adjChunks[2]; at = new Vector3Int(width - 1, at.y, 0); }
+            else
+            { auxChunk = adjChunks[1]; at = new Vector3Int(width - 1, at.y, at.z); }
+        }
+        else if(at.x == width)
+        {
+            if (at.z == -1)
+            { auxChunk = adjChunks[6]; at = new Vector3Int(0, at.y, depth - 1); }
+            else if (at.z == depth)
+            { auxChunk = adjChunks[4]; at = new Vector3Int(0, at.y, 0); }
+            else
+            { auxChunk = adjChunks[5]; at = new Vector3Int(0, at.y, at.z); }
+        }
+        else
+        {
+            if (at.z == -1)
+            { auxChunk = adjChunks[7]; at = new Vector3Int(at.x, at.y, depth - 1); }
+            else if (at.z == depth)
+            { auxChunk = adjChunks[3]; at = new Vector3Int(at.x, at.y, 0); }
+        }
+
+        Debug.Log("New position is " + at);
+
+        if (auxChunk == null)
+            auxChunk = this;
+
+        if (auxChunk.chunkData[at.x, at.y, at.z] == 0)
+        {
+            Debug.Log("Adding voxel at " + at);
+            auxChunk.pendingUpdate = true;
+            auxChunk.chunkData[at.x, at.y, at.z] = 1;
+
+            if (at.x == 0)
+            {
+                if (auxChunk.adjChunks[1])
+                {
+                    auxChunk.adjChunks[1].pendingUpdate = true;
+                }
+            }
+            else if (at.x == width - 1 && auxChunk.adjChunks[5])
+            {
+                if (auxChunk.adjChunks[5])
+                {
+                    auxChunk.adjChunks[5].pendingUpdate = true;
+                }
+            }
+
+            if (at.z == 0)
+            {
+                if (auxChunk.adjChunks[7])
+                {
+                    auxChunk.adjChunks[7].pendingUpdate = true;
+                }
+            }
+            else if (at.z == depth - 1 && auxChunk.adjChunks[3])
+            {
+                if (auxChunk.adjChunks[3])
+                {
+                    auxChunk.adjChunks[3].pendingUpdate = true;
+                }
+            }
+        }
+        else
+        {
+            Debug.Log("Voxel already at " + at);
         }
     }
 }
